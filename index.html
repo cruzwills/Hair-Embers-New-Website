@@ -114,8 +114,8 @@
 
     /* ─── Scroll reveal ─────────────────────────────────── */
     .reveal, .reveal-l, .reveal-r {
-      transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1),
-                  transform 0.75s cubic-bezier(0.16,1,0.3,1);
+      transition: opacity 1.4s cubic-bezier(0.16,1,0.3,1),
+                  transform 1.4s cubic-bezier(0.16,1,0.3,1);
     }
     .reveal   { opacity: 0; transform: translateY(36px); }
     .reveal-l { opacity: 0; transform: translateX(-36px); }
@@ -123,7 +123,7 @@
     .reveal.on, .reveal-l.on, .reveal-r.on { opacity: 1; transform: none; }
 
     /* ─── Hero word-by-word animation ──────────────────── */
-    .hero-word { display: inline-block; opacity: 0; transform: translateY(48px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .hero-word { display: inline-block; opacity: 0; transform: translateY(48px); transition: opacity 1.2s ease, transform 1.2s ease; }
     .hero-word.on { opacity: 1; transform: none; }
 
     /* ─── Pulse button ──────────────────────────────────── */
@@ -137,7 +137,7 @@
       position: absolute; inset: 0;
       border-radius: inherit;
       background: rgba(240,76,138,0.4);
-      animation: pulse-ring 2.2s ease-out infinite;
+      animation: pulse-ring 3.5s ease-out infinite;
     }
     .btn-pulse::after { animation-delay: 1.1s; }
 
@@ -153,7 +153,7 @@
       opacity: 0;
       transition: opacity 0.1s;
     }
-    .shimmer-wrap:hover::after { opacity: 1; animation: shimmer 0.7s ease forwards; }
+    .shimmer-wrap:hover::after { opacity: 1; animation: shimmer 1.2s ease forwards; }
 
     /* ─── Cursor glow (desktop only) ───────────────────── */
     #cursor-glow {
@@ -171,7 +171,7 @@
       position: absolute; border-radius: 50%;
       background: rgba(255,255,255,0.3);
       transform: scale(0);
-      animation: ripple-anim 0.55s linear;
+      animation: ripple-anim 0.9s linear;
       pointer-events: none;
     }
     @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
@@ -184,18 +184,18 @@
     }
     .text-gradient {
       background-size: 200% auto !important;
-      animation: gradient-pan 4s ease infinite;
+      animation: gradient-pan 8s ease infinite;
     }
 
     /* ─── Card tilt (3D hover) ──────────────────────────── */
-    .tilt-card { transition: transform 0.12s ease, box-shadow 0.3s ease; transform-style: preserve-3d; will-change: transform; }
+    .tilt-card { transition: transform 0.35s ease, box-shadow 0.5s ease; transform-style: preserve-3d; will-change: transform; }
 
     /* ─── Floating badge bounce ─────────────────────────── */
     @keyframes badge-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
     .badge-float { animation: badge-bob 3s ease-in-out infinite; }
 
     /* ─── Section heading underline grow ────────────────── */
-    .reveal-line { width: 0; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-line { width: 0; transition: width 1.8s cubic-bezier(0.16,1,0.3,1); }
     .reveal-line.on { width: 3rem; }
 
     /* ─── Floating particles ────────────────────────────── */
@@ -245,7 +245,7 @@
 
     /* ─── Ticker ────────────────────────────────────────── */
     @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-    .ticker-track { animation: ticker 28s linear infinite; display: flex; width: max-content; }
+    .ticker-track { animation: ticker 40s linear infinite; display: flex; width: max-content; }
     .ticker-track:hover { animation-play-state: paused; }
 
     /* ─── Floating scroll arrow ─────────────────────────── */
@@ -539,23 +539,32 @@
   </section>
 
   <!-- ══ TICKER ════════════════════════════════════════════════════════════ -->
-  <div class="overflow-hidden" style="background:linear-gradient(90deg,#C4A87A,#E8D5B0,#C4A87A); padding:14px 0;">
+  <div class="overflow-hidden relative" style="background:#0d0007; border-top:1px solid rgba(240,76,138,0.2); border-bottom:1px solid rgba(240,76,138,0.2); padding:12px 0;">
+    <div class="pointer-events-none absolute inset-0" style="background:linear-gradient(90deg,#0d0007 0%,transparent 8%,transparent 92%,#0d0007 100%); z-index:1;"></div>
     <div class="ticker-track">
-      <div class="flex">
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Free Shipping Over R800</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Premium Remy Hair</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
+      <div class="flex items-center">
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">💗 Confidence Is Your Best Accessory</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Hair Embers · Premium Wig Boutique</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">👑 Wear Your Crown Every Day</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">✨ Transform · Glow · Conquer</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">🌸 Your Hair. Your Power. Your Story.</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">💎 Premium Remy Hair · 100% Natural Feel</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
       </div>
-      <div aria-hidden="true" class="flex">
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Free Shipping Over R800</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Premium Remy Hair</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
+      <div aria-hidden="true" class="flex items-center">
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">💗 Confidence Is Your Best Accessory</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Hair Embers · Premium Wig Boutique</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">👑 Wear Your Crown Every Day</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">✨ Transform · Glow · Conquer</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">🌸 Your Hair. Your Power. Your Story.</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
+        <span class="px-7 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3" style="color:#F04C8A;">💎 Premium Remy Hair · 100% Natural Feel</span>
+        <span class="px-7 text-white/50 text-[0.67rem] font-bold tracking-[0.25em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
       </div>
     </div>
   </div>
@@ -1035,24 +1044,24 @@
         <div class="grid sm:grid-cols-2 gap-5">
           <div class="flex flex-col gap-2">
             <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">First Name</label>
-            <input type="text" placeholder="Nomvula" required
+            <input id="cf-first" type="text" placeholder="Nomvula" required
               class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">Last Name</label>
-            <input type="text" placeholder="Dlamini" required
+            <input id="cf-last" type="text" placeholder="Dlamini" required
               class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
           </div>
         </div>
         <div class="flex flex-col gap-2">
           <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">Email</label>
-          <input type="email" placeholder="your@email.com" required
+          <input id="cf-email" type="email" placeholder="your@email.com" required
             class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
         </div>
         <div class="flex flex-col gap-2">
           <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">Service Interest</label>
           <div class="relative">
-            <select class="w-full bg-ink-3 border border-white/10 text-white/70 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200 appearance-none">
+            <select id="cf-service" class="w-full bg-ink-3 border border-white/10 text-white/70 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200 appearance-none">
               <option value="" disabled selected>Select a service…</option>
               <option>Wig Fitting &amp; Consultation</option>
               <option>Custom Wig Order</option>
@@ -1066,7 +1075,7 @@
         </div>
         <div class="flex flex-col gap-2">
           <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">Message</label>
-          <textarea rows="4" placeholder="Tell us what you're looking for…"
+          <textarea id="cf-msg" rows="4" placeholder="Tell us what you're looking for…"
             class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] resize-y focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200"></textarea>
         </div>
         <button id="form-btn" type="submit"
@@ -1078,58 +1087,91 @@
   </section>
 
   <!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
-  <footer class="relative noise overflow-hidden" style="background:#070707; border-top:1px solid rgba(255,255,255,0.06);">
-    <div class="max-w-[1400px] mx-auto px-6 lg:px-16 pt-20 pb-10">
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-        <div class="lg:col-span-1">
-          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-10 sm:h-12 lg:h-14 w-auto mb-6" />
-          <p class="font-script italic text-white/35 text-[1rem] leading-relaxed mb-6"
-             style="font-family:'Cormorant Garamond',Georgia,serif;">"Let Your Hair Make a Statement"</p>
-          <div class="flex gap-3">
+  <footer class="relative noise overflow-hidden" style="background:#070707;">
+    <!-- Top pink glow accent -->
+    <div class="h-px w-full" style="background:linear-gradient(90deg,transparent 0%,#F04C8A 30%,#C73470 50%,#F04C8A 70%,transparent 100%);"></div>
+    <div class="pointer-events-none absolute inset-0" style="background:radial-gradient(ellipse 60% 40% at 50% 0%,rgba(240,76,138,0.08) 0%,transparent 60%);"></div>
+
+    <div class="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-16 pt-16 pb-0">
+
+      <!-- Main grid: logo col + 3 link cols -->
+      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-14">
+
+        <!-- Logo column (spans 2 of 5 on desktop) -->
+        <div class="col-span-2 lg:col-span-2">
+          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-14 sm:h-16 lg:h-20 w-auto mb-4 drop-shadow-[0_4px_24px_rgba(240,76,138,0.25)]" />
+          <p class="font-script italic text-pink/50 text-[1rem] mb-6 leading-relaxed" style="font-family:'Cormorant Garamond',Georgia,serif;">"Confidence Is Your Best Accessory"</p>
+          <div class="flex gap-2.5 mb-6">
             <a href="https://instagram.com/hairembers" target="_blank" rel="noopener" aria-label="Instagram"
-               class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Ig</a>
-            <a href="#" aria-label="Facebook" class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Fb</a>
-            <a href="#" aria-label="TikTok"   class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Tk</a>
-            <a href="https://wa.me/263772529805" target="_blank" rel="noopener" aria-label="WhatsApp"
-               class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Wa</a>
+               class="w-9 h-9 rounded-full flex items-center justify-center border border-white/10 hover:border-pink hover:bg-pink/10 transition-all duration-300 active:scale-90 group">
+              <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-pink transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full flex items-center justify-center border border-white/10 hover:border-pink hover:bg-pink/10 transition-all duration-300 active:scale-90 group">
+              <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-pink transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="#" aria-label="TikTok" class="w-9 h-9 rounded-full flex items-center justify-center border border-white/10 hover:border-pink hover:bg-pink/10 transition-all duration-300 active:scale-90 group">
+              <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-pink transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+            </a>
+            <a href="https://wa.me/263772529805" target="_blank" rel="noopener" aria-label="WhatsApp" class="w-9 h-9 rounded-full flex items-center justify-center border border-white/10 hover:border-pink hover:bg-pink/10 transition-all duration-300 active:scale-90 group">
+              <svg class="w-3.5 h-3.5 text-white/40 group-hover:text-pink transition-colors duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.569-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378L2 21l1.338-4.872A9.883 9.883 0 0 1 2.1 11.52C2.1 6.31 6.411 2 11.624 2c2.528 0 4.9.984 6.685 2.769a9.386 9.386 0 0 1 2.765 6.688c-.002 5.21-4.314 9.528-9.523 9.528"/></svg>
+            </a>
+          </div>
+          <div class="space-y-2">
+            <p class="text-white/35 text-[0.8rem]">📍 Shop 4, Homegate Mall, Harare</p>
+            <a href="tel:+263772529805" class="block text-white/35 text-[0.8rem] hover:text-pink transition-colors duration-200">📞 +263 77 252 9805</a>
+            <a href="mailto:hairemberszw@gmail.com" class="block text-white/35 text-[0.8rem] hover:text-pink transition-colors duration-200">✉️ hairemberszw@gmail.com</a>
+            <p class="text-white/35 text-[0.8rem]">🕐 Mon – Sat · 08:00 – 19:30</p>
           </div>
         </div>
+
+        <!-- Shop -->
         <div>
-          <h5 class="font-display font-semibold text-white mb-6">Shop</h5>
+          <h5 class="text-[0.6rem] tracking-[0.25em] uppercase font-bold mb-5" style="color:#F04C8A;">Shop</h5>
           <ul class="space-y-3">
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">All Wigs</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Lace Fronts</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Full Lace Wigs</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Extensions</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">New Arrivals</a></li>
+            <li><a href="#collections" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">All Wigs</a></li>
+            <li><a href="#collections" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Lace Fronts</a></li>
+            <li><a href="#collections" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Full Lace Wigs</a></li>
+            <li><a href="#collections" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Extensions</a></li>
+            <li><a href="#collections" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">New Arrivals</a></li>
           </ul>
         </div>
+
+        <!-- Services -->
         <div>
-          <h5 class="font-display font-semibold text-white mb-6">Services</h5>
+          <h5 class="text-[0.6rem] tracking-[0.25em] uppercase font-bold mb-5" style="color:#F04C8A;">Services</h5>
           <ul class="space-y-3">
-            <li><a href="#services" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Consultations</a></li>
-            <li><a href="#services" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Custom Orders</a></li>
-            <li><a href="#services" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Wig Installs</a></li>
-            <li><a href="#services" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Colour &amp; Customisation</a></li>
+            <li><a href="#services" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Wig Fitting</a></li>
+            <li><a href="#services" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Custom Orders</a></li>
+            <li><a href="#services" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Wig Installs</a></li>
+            <li><a href="#services" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Colour &amp; Styling</a></li>
+            <li><a href="#services" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Maintenance</a></li>
           </ul>
         </div>
+
+        <!-- Help -->
         <div>
-          <h5 class="font-display font-semibold text-white mb-6">Help</h5>
+          <h5 class="text-[0.6rem] tracking-[0.25em] uppercase font-bold mb-5" style="color:#F04C8A;">Help</h5>
           <ul class="space-y-3">
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Size Guide</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Care Instructions</a></li>
-            <li><a href="#" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Returns Policy</a></li>
-            <li><a href="#contact" class="text-white/45 text-[0.85rem] hover:text-pink transition-colors duration-200">Contact Us</a></li>
+            <li><a href="#" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Size Guide</a></li>
+            <li><a href="#" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Care Instructions</a></li>
+            <li><a href="#" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Returns Policy</a></li>
+            <li><a href="#contact" class="text-white/40 text-[0.82rem] hover:text-white transition-colors duration-200">Contact Us</a></li>
+            <li><button onclick="openBooking()" class="text-white/40 text-[0.82rem] hover:text-pink transition-colors duration-200 text-left">Book Now</button></li>
           </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/[0.06] py-7 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-white/20 text-[0.73rem] tracking-wide">© 2026 Hair Embers Zimbabwe. All rights reserved.</p>
+        <p class="font-script italic text-white/15 text-[0.85rem]" style="font-family:'Cormorant Garamond',Georgia,serif;">Your Hair. Your Power. Your Story.</p>
+        <div class="flex gap-5">
+          <a href="#" class="text-white/20 text-[0.73rem] hover:text-pink transition-colors duration-200">Privacy Policy</a>
+          <a href="#" class="text-white/20 text-[0.73rem] hover:text-pink transition-colors duration-200">Terms</a>
         </div>
       </div>
-      <div class="border-t border-white/[0.06] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-white/25 text-[0.76rem]">© 2026 Hair Embers. All rights reserved.</p>
-        <div class="flex gap-6">
-          <a href="#" class="text-white/25 text-[0.76rem] hover:text-pink transition-colors duration-200">Privacy Policy</a>
-          <a href="#" class="text-white/25 text-[0.76rem] hover:text-pink transition-colors duration-200">Terms of Service</a>
-        </div>
-      </div>
+
     </div>
   </footer>
 
@@ -1760,7 +1802,7 @@
     /* ── Staggered grid reveals ── */
     (function(){
       document.querySelectorAll('.grid > .reveal, .grid > div > .reveal').forEach((el, i) => {
-        el.style.transitionDelay = (i % 4 * 0.1) + 's';
+        el.style.transitionDelay = (i % 4 * 0.2) + 's';
       });
     })();
 
@@ -1775,6 +1817,22 @@
     /* ── Form submit ── */
     function handleForm(e) {
       e.preventDefault();
+      const first   = document.getElementById('cf-first').value.trim();
+      const last    = document.getElementById('cf-last').value.trim();
+      const email   = document.getElementById('cf-email').value.trim();
+      const service = document.getElementById('cf-service').value;
+      const msg     = document.getElementById('cf-msg').value.trim();
+
+      const subject = encodeURIComponent('Hair Embers Enquiry — ' + service);
+      const body    = encodeURIComponent(
+        'Name: ' + first + ' ' + last + '\n' +
+        'Email: ' + email + '\n' +
+        'Service: ' + service + '\n\n' +
+        'Message:\n' + msg
+      );
+
+      window.location.href = 'mailto:hairemberszw@gmail.com?subject=' + subject + '&body=' + body;
+
       const btn = document.getElementById('form-btn');
       btn.textContent = 'Message Sent ✓';
       btn.style.background = 'linear-gradient(135deg,#2d7a3a,#1a5c29)';
