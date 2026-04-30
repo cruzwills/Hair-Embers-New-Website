@@ -155,6 +155,49 @@
     }
     .shimmer-wrap:hover::after { opacity: 1; animation: shimmer 0.7s ease forwards; }
 
+    /* ─── Cursor glow (desktop only) ───────────────────── */
+    #cursor-glow {
+      position: fixed; pointer-events: none; z-index: 9998;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(240,76,138,0.1) 0%, transparent 70%);
+      transform: translate(-50%,-50%);
+      transition: opacity 0.3s ease;
+      display: none;
+    }
+    @media (pointer: fine) { #cursor-glow { display: block; } }
+
+    /* ─── Ripple on click ───────────────────────────────── */
+    .ripple-effect {
+      position: absolute; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: ripple-anim 0.55s linear;
+      pointer-events: none;
+    }
+    @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
+
+    /* ─── Animated gradient text ────────────────────────── */
+    @keyframes gradient-pan {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .text-gradient {
+      background-size: 200% auto !important;
+      animation: gradient-pan 4s ease infinite;
+    }
+
+    /* ─── Card tilt (3D hover) ──────────────────────────── */
+    .tilt-card { transition: transform 0.12s ease, box-shadow 0.3s ease; transform-style: preserve-3d; will-change: transform; }
+
+    /* ─── Floating badge bounce ─────────────────────────── */
+    @keyframes badge-bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    .badge-float { animation: badge-bob 3s ease-in-out infinite; }
+
+    /* ─── Section heading underline grow ────────────────── */
+    .reveal-line { width: 0; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-line.on { width: 3rem; }
+
     /* ─── Floating particles ────────────────────────────── */
     @keyframes float-up { 0%{transform:translateY(0) scale(1); opacity:0.4} 100%{transform:translateY(-80px) scale(1.3); opacity:0} }
     .particle {
@@ -241,7 +284,7 @@
 
     /* ─── Nav mobile open ───────────────────────────────── */
     .nav-mobile { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-    .nav-mobile.open { max-height: 500px; }
+    .nav-mobile.open { max-height: 500px; border-top: 1px solid rgba(255,255,255,0.06); }
 
     /* ─── Gradient backgrounds ──────────────────────────── */
     .hero-bg {
@@ -257,13 +300,7 @@
     }
 
     /* ─── Sticky nav ────────────────────────────────────── */
-    #nav { transition: background 0.5s ease, padding 0.5s ease, border-bottom-color 0.5s ease; }
-    #nav.scrolled {
-      background: rgba(7,7,7,0.9);
-      backdrop-filter: blur(20px) saturate(180%);
-      -webkit-backdrop-filter: blur(20px) saturate(180%);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
+    #nav { transition: padding 0.5s ease; }
 
     /* ─── Booking modal ─────────────────────────────── */
     #booking-modal {
@@ -344,16 +381,17 @@
 </head>
 
 <body class="bg-ink text-white antialiased overflow-x-hidden">
+  <div id="cursor-glow"></div>
 
   <!-- ══ Scroll progress ══════════════════════════════════════════════════ -->
   <div id="progress-bar"></div>
 
   <!-- ══ NAV ══════════════════════════════════════════════════════════════ -->
-  <header id="nav" class="fixed top-0 left-0 right-0 z-50 py-5 px-6 lg:px-16">
+  <header id="nav" class="lg:sticky lg:top-0 z-50 py-4 sm:py-5 lg:py-5 px-5 sm:px-6 lg:px-16 bg-[#070707] lg:bg-transparent border-b border-white/[0.08] lg:border-transparent">
     <div class="max-w-[1400px] mx-auto flex items-center justify-between">
 
       <a href="#" class="flex-shrink-0 focus-visible:ring-2 focus-visible:ring-pink">
-        <img src="brand_assests/logo.png" alt="Hair Embers" class="h-12 lg:h-14" />
+        <img src="brand_assests/logo.png" alt="Hair Embers" class="h-16 sm:h-20 md:h-20 lg:h-20 xl:h-24 w-auto drop-shadow-[0_2px_12px_rgba(240,76,138,0.18)]" />
       </a>
 
       <nav class="hidden lg:flex items-center gap-10">
@@ -377,7 +415,7 @@
       </div>
     </div>
 
-    <div class="nav-mobile lg:hidden bg-ink-3 border-t border-white/[0.06] mt-4 -mx-6 px-6" id="nav-mobile">
+    <div class="nav-mobile lg:hidden -mx-4 sm:-mx-6 px-4 sm:px-6" style="background:#070707;" id="nav-mobile">
       <div class="flex flex-col py-4 gap-0">
         <a href="#about"        onclick="closeNav()" class="py-3.5 text-[0.78rem] font-semibold tracking-widest uppercase text-white/60 hover:text-white border-b border-white/[0.06] transition-colors duration-200">About</a>
         <a href="#collections"  onclick="closeNav()" class="py-3.5 text-[0.78rem] font-semibold tracking-widest uppercase text-white/60 hover:text-white border-b border-white/[0.06] transition-colors duration-200">Shop</a>
@@ -390,7 +428,7 @@
   </header>
 
   <!-- ══ HERO ═════════════════════════════════════════════════════════════ -->
-  <section id="hero" class="relative min-h-svh flex items-center overflow-hidden hero-bg noise pt-24">
+  <section id="hero" class="relative min-h-svh flex items-center overflow-hidden hero-bg noise">
 
     <!-- Floating pink particles -->
     <div id="particles" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
@@ -477,7 +515,7 @@
           <img src="brand_assests/hair pic2.png" alt="Hair Embers" class="w-full h-full object-cover opacity-70" />
           <!-- Overlay info -->
           <div class="absolute inset-0 flex flex-col justify-between p-8">
-            <img src="brand_assests/logo.png" alt="Hair Embers" class="w-32 opacity-80" />
+            <img src="brand_assests/logo.png" alt="Hair Embers" class="w-24 sm:w-28 md:w-32 lg:w-36 h-auto opacity-80" />
             <div>
               <div class="font-script italic text-white/70 text-xl leading-snug mb-4"
                    style="font-family:'Cormorant Garamond',Georgia,serif;">"Confidence is<br/>your best accessory"</div>
@@ -589,11 +627,11 @@
             <p class="text-white/50 text-[0.78rem] leading-relaxed">Premium quality, every single time.</p>
           </div>
         </div>
-        <a href="#about"
+        <button onclick="openBooking()"
            class="inline-flex items-center gap-2.5 shimmer-wrap bg-gradient-to-r from-pink to-rose text-white text-[0.74rem] font-bold tracking-[0.14em] uppercase px-8 py-4 shadow-pink-glow hover:shadow-pink-glow-lg active:scale-[0.97] transition-[transform,box-shadow] duration-200">
-          Our Full Story
+          Book Now
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
-        </a>
+        </button>
       </div>
     </div>
   </section>
@@ -743,7 +781,7 @@
         <h2 class="font-display font-black text-white mb-4" style="font-size:clamp(2.2rem,4vw,3.5rem);letter-spacing:-0.03em;line-height:1.08;">
           Services <em class="text-gradient not-italic">Crafted</em> for You
         </h2>
-        <div class="w-12 h-0.5 mx-auto mb-6" style="background:var(--grad-pink);"></div>
+        <div class="reveal-line h-0.5 mx-auto mb-6" style="background:var(--grad-pink);"></div>
         <p class="text-white/50 text-[0.92rem] leading-[1.8]">From personalised fitting to expert installs — every service designed around your unique beauty.</p>
       </div>
 
@@ -797,7 +835,7 @@
         <h2 class="font-display font-black text-white mb-4" style="font-size:clamp(2.2rem,4vw,3.5rem);letter-spacing:-0.03em;line-height:1.08;">
           Your <em class="text-gradient not-italic">Journey</em> to Gorgeous
         </h2>
-        <div class="w-12 h-0.5 mx-auto" style="background:var(--grad-pink);"></div>
+        <div class="reveal-line h-0.5 mx-auto" style="background:var(--grad-pink);"></div>
       </div>
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 relative">
         <!-- connector line -->
@@ -845,11 +883,11 @@
         <h2 class="font-display font-black text-white mb-4" style="font-size:clamp(2.2rem,4vw,3.5rem);letter-spacing:-0.03em;line-height:1.08;">
           What Our <em class="text-gradient not-italic">Clients</em> Say
         </h2>
-        <div class="w-12 h-0.5 mx-auto" style="background:var(--grad-pink);"></div>
+        <div class="reveal-line h-0.5 mx-auto" style="background:var(--grad-pink);"></div>
       </div>
 
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="testimonial-card glass-pink border border-pink/20 p-8 reveal">
+        <div class="testimonial-card tilt-card glass-pink border border-pink/20 p-8 reveal">
           <div class="font-display font-black text-[4.5rem] leading-none mb-3" style="color:rgba(240,76,138,0.25);">"</div>
           <p class="font-script italic text-white/75 text-[1.05rem] leading-[1.7] mb-8"
              style="font-family:'Cormorant Garamond',Georgia,serif;">
@@ -859,38 +897,38 @@
             <div class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-display font-bold text-lg" style="background:var(--grad-pink);">T</div>
             <div>
               <div class="text-gold text-xs mb-0.5">★★★★★</div>
-              <div class="font-semibold text-white text-sm">Thandeka M.</div>
-              <div class="text-white/40 text-[0.72rem]">Regular Client · Durban</div>
+              <div class="font-semibold text-white text-sm">Tsitsi M.</div>
+              <div class="text-white/40 text-[0.72rem]">Regular Client · Harare</div>
             </div>
           </div>
         </div>
-        <div class="testimonial-card glass-pink border border-pink/20 p-8 reveal">
+        <div class="testimonial-card tilt-card glass-pink border border-pink/20 p-8 reveal">
           <div class="font-display font-black text-[4.5rem] leading-none mb-3" style="color:rgba(240,76,138,0.25);">"</div>
           <p class="font-script italic text-white/75 text-[1.05rem] leading-[1.7] mb-8"
              style="font-family:'Cormorant Garamond',Georgia,serif;">
             The custom wig was beyond what I imagined — silky, natural looking, and it lasts. Hair Embers is my go-to forever.
           </p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-display font-bold text-lg" style="background:var(--grad-pink);">N</div>
+            <div class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-display font-bold text-lg" style="background:var(--grad-pink);">R</div>
             <div>
               <div class="text-gold text-xs mb-0.5">★★★★★</div>
-              <div class="font-semibold text-white text-sm">Nomvula D.</div>
-              <div class="text-white/40 text-[0.72rem]">Loyal Client · KZN</div>
+              <div class="font-semibold text-white text-sm">Rudo C.</div>
+              <div class="text-white/40 text-[0.72rem]">Loyal Client · Bulawayo</div>
             </div>
           </div>
         </div>
-        <div class="testimonial-card glass-pink border border-pink/20 p-8 reveal">
+        <div class="testimonial-card tilt-card glass-pink border border-pink/20 p-8 reveal">
           <div class="font-display font-black text-[4.5rem] leading-none mb-3" style="color:rgba(240,76,138,0.25);">"</div>
           <p class="font-script italic text-white/75 text-[1.05rem] leading-[1.7] mb-8"
              style="font-family:'Cormorant Garamond',Georgia,serif;">
             The fit is incredible — like it was made for me. I recommend Hair Embers to every woman I know. Absolute queens!
           </p>
           <div class="flex items-center gap-4">
-            <div class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-display font-bold text-lg" style="background:var(--grad-pink);">L</div>
+            <div class="w-11 h-11 rounded-full flex-shrink-0 flex items-center justify-center font-display font-bold text-lg" style="background:var(--grad-pink);">F</div>
             <div>
               <div class="text-gold text-xs mb-0.5">★★★★★</div>
-              <div class="font-semibold text-white text-sm">Lerato K.</div>
-              <div class="text-white/40 text-[0.72rem]">First-time Client · Jhb</div>
+              <div class="font-semibold text-white text-sm">Fadzai N.</div>
+              <div class="text-white/40 text-[0.72rem]">First-time Client · Mutare</div>
             </div>
           </div>
         </div>
@@ -1044,7 +1082,7 @@
     <div class="max-w-[1400px] mx-auto px-6 lg:px-16 pt-20 pb-10">
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
         <div class="lg:col-span-1">
-          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-14 mb-6" />
+          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-10 sm:h-12 lg:h-14 w-auto mb-6" />
           <p class="font-script italic text-white/35 text-[1rem] leading-relaxed mb-6"
              style="font-family:'Cormorant Garamond',Georgia,serif;">"Let Your Hair Make a Statement"</p>
           <div class="flex gap-3">
@@ -1322,8 +1360,6 @@
     const navEl  = document.getElementById('nav');
     const progEl = document.getElementById('progress-bar');
     window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY > 60;
-      navEl.classList.toggle('scrolled', scrolled);
       const total = document.body.scrollHeight - window.innerHeight;
       progEl.style.width = (window.scrollY / total * 100) + '%';
     }, { passive: true });
@@ -1665,6 +1701,75 @@
       document.addEventListener('keydown', e => {
         if (e.key==='Escape' && document.getElementById('booking-modal').classList.contains('open')) closeBooking();
       });
+    })();
+
+    /* ── Cursor glow ── */
+    (function(){
+      const glow = document.getElementById('cursor-glow');
+      let mx = -999, my = -999;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        glow.style.left = mx + 'px';
+        glow.style.top  = my + 'px';
+      });
+    })();
+
+    /* ── Card 3D tilt ── */
+    (function(){
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+          const r = card.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width  - 0.5;
+          const y = (e.clientY - r.top)  / r.height - 0.5;
+          card.style.transform = `perspective(700px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-6px) scale(1.02)`;
+        });
+        card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+      });
+    })();
+
+    /* ── Magnetic buttons ── */
+    (function(){
+      document.querySelectorAll('.btn-pulse').forEach(btn => {
+        btn.addEventListener('mousemove', e => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width  / 2) * 0.25;
+          const y = (e.clientY - r.top  - r.height / 2) * 0.25;
+          btn.style.transform = `translate(${x}px,${y}px)`;
+        });
+        btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+      });
+    })();
+
+    /* ── Ripple on click ── */
+    (function(){
+      document.querySelectorAll('button, a.shimmer-wrap').forEach(el => {
+        el.addEventListener('click', function(e) {
+          const r = this.getBoundingClientRect();
+          const size = Math.max(r.width, r.height);
+          const rip = document.createElement('span');
+          rip.className = 'ripple-effect';
+          rip.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-r.left-size/2}px;top:${e.clientY-r.top-size/2}px`;
+          this.style.position = 'relative';
+          this.style.overflow = 'hidden';
+          this.appendChild(rip);
+          setTimeout(() => rip.remove(), 600);
+        });
+      });
+    })();
+
+    /* ── Staggered grid reveals ── */
+    (function(){
+      document.querySelectorAll('.grid > .reveal, .grid > div > .reveal').forEach((el, i) => {
+        el.style.transitionDelay = (i % 4 * 0.1) + 's';
+      });
+    })();
+
+    /* ── Reveal-line (section underlines) ── */
+    (function(){
+      const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.reveal-line').forEach(el => obs.observe(el));
     })();
 
     /* ── Form submit ── */
