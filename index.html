@@ -273,11 +273,20 @@
       transition: opacity 0.3s ease;
     }
     #booking-modal.open { opacity: 1; pointer-events: all; }
+    #booking-modal .modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
     #booking-modal .booking-box {
       position: relative; z-index: 1;
       width: 95%; max-width: 540px;
       max-height: 92vh; overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      background: rgba(18,10,22,0.96) !important;
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
       transform: scale(0.92) translateY(24px);
       transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
     }
@@ -499,7 +508,7 @@
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Premium Remy Hair</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ 072 529 805</span>
+        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
       </div>
       <div aria-hidden="true" class="flex">
@@ -507,7 +516,7 @@
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Premium Remy Hair</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Custom Orders Welcome</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ Shop 4 · Homegate Mall</span>
-        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ 072 529 805</span>
+        <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ +263 77 252 9805</span>
         <span class="px-8 text-ink text-[0.68rem] font-bold tracking-[0.22em] uppercase whitespace-nowrap flex items-center gap-3">✦ @hairembers</span>
       </div>
     </div>
@@ -933,10 +942,10 @@
             Book Appointment
           </button>
         </div>
-        <a href="tel:0725298005"
+        <a href="tel:+263772529805"
            class="inline-flex items-center gap-2.5 glass border border-white/25 text-white text-[0.8rem] font-semibold tracking-[0.12em] uppercase px-10 py-5 hover:border-pink/50 hover:bg-pink/5 active:scale-[0.97] transition-[border-color,background,transform] duration-200 focus-visible:ring-2 focus-visible:ring-white">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07C9.22 17.46 7.54 15.77 6.15 13.87A19.79 19.79 0 0 1 3.08 5.26 2 2 0 0 1 5.05 3H8a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L9.05 10.5a16 16 0 0 0 4.45 4.45l1.06-1.06a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.98 16.92Z"/></svg>
-          Call 072 529 805
+          Call +263 77 252 9805
         </a>
       </div>
     </div>
@@ -969,7 +978,7 @@
             <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center text-lg" style="background:rgba(240,76,138,0.15);">📞</div>
             <div>
               <div class="text-[0.62rem] tracking-[0.2em] uppercase text-pink font-semibold mb-1">Phone</div>
-              <a href="tel:0725298005" class="text-white text-[0.92rem] hover:text-pink transition-colors duration-200">072 529 805</a>
+              <a href="tel:+263772529805" class="text-white text-[0.92rem] hover:text-pink transition-colors duration-200">+263 77 252 9805</a>
             </div>
           </div>
           <div class="glass-pink border border-pink/15 p-5 flex gap-4 items-start">
@@ -1043,7 +1052,7 @@
                class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Ig</a>
             <a href="#" aria-label="Facebook" class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Fb</a>
             <a href="#" aria-label="TikTok"   class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Tk</a>
-            <a href="https://wa.me/27725298005" target="_blank" rel="noopener" aria-label="WhatsApp"
+            <a href="https://wa.me/263772529805" target="_blank" rel="noopener" aria-label="WhatsApp"
                class="w-9 h-9 glass border border-white/10 flex items-center justify-center text-[0.7rem] font-bold text-white/50 hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200">Wa</a>
           </div>
         </div>
@@ -1087,7 +1096,7 @@
   </footer>
 
   <!-- ══ FLOATING WHATSAPP ═════════════════════════════════════════════════ -->
-  <a href="https://wa.me/27725298005?text=Hi%20Hair%20Embers%2C%20I%27d%20like%20to%20book%20an%20appointment"
+  <a href="https://wa.me/263772529805?text=Hi%20Hair%20Embers%2C%20I%27d%20like%20to%20book%20an%20appointment"
      target="_blank" rel="noopener"
      aria-label="Chat on WhatsApp"
      class="wa-btn fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-transform duration-200 hover:scale-110 active:scale-95"
@@ -1147,7 +1156,10 @@
           <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Sa</div>
         </div>
         <div id="bk-cal-grid" class="grid grid-cols-7 gap-1 mb-1"></div>
-        <p id="bk-avail-status" class="text-white/35 text-[0.7rem] mb-2 italic" style="min-height:1.1rem;"></p>
+        <div id="bk-avail-status" style="display:none;background:rgba(240,76,138,0.08);border:1px solid rgba(240,76,138,0.25);" class="flex items-center gap-2.5 px-3 py-2.5 mb-3 rounded">
+          <svg class="w-3.5 h-3.5 flex-shrink-0 animate-spin text-pink" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg>
+          <span class="text-pink text-[0.72rem] font-semibold tracking-[0.1em] uppercase">Checking availability…</span>
+        </div>
         <div id="bk-slots-wrap" style="display:none">
           <div class="flex items-center justify-between mb-2">
             <p class="text-[0.62rem] tracking-[0.2em] uppercase text-white/40 font-semibold">Available Times</p>
@@ -1177,7 +1189,7 @@
           </div>
           <div class="flex flex-col gap-2">
             <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">WhatsApp Number</label>
-            <input id="bk-phone" type="tel" placeholder="+27 72 529 8005" autocomplete="tel"
+            <input id="bk-phone" type="tel" placeholder="+263 772 529 805 " autocomplete="tel"
               class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
             <span class="text-white/30 text-[0.72rem]">We'll send your confirmation here</span>
           </div>
@@ -1409,16 +1421,16 @@
     /* ── Booking Modal ── */
     (function(){
       const SERVICES = [
-        { name:'Wig Fitting & Consultation', duration:'60 min',  mins:60,  emoji:'👑' },
-        { name:'Custom Wig Order',           duration:'90 min',  mins:90,  emoji:'✂️'  },
-        { name:'Wig Maintenance & Styling',  duration:'60 min',  mins:60,  emoji:'🪄'  },
-        { name:'Natural Hair Extensions',    duration:'120 min', mins:120, emoji:'💫'  },
-        { name:'Wig Install',                duration:'90 min',  mins:90,  emoji:'💇'  },
-        { name:'Colour & Customisation',     duration:'120 min', mins:120, emoji:'🎨'  },
+        { name:'Wig Fitting & Consultation', duration:'30 min', mins:30, emoji:'👑' },
+        { name:'Custom Wig Order',           duration:'30 min', mins:30, emoji:'✂️'  },
+        { name:'Wig Maintenance & Styling',  duration:'30 min', mins:30, emoji:'🪄'  },
+        { name:'Natural Hair Extensions',    duration:'30 min', mins:30, emoji:'💫'  },
+        { name:'Wig Install',                duration:'30 min', mins:30, emoji:'💇'  },
+        { name:'Colour & Customisation',     duration:'30 min', mins:30, emoji:'🎨'  },
       ];
-      const WDAY_SLOTS = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'];
-      const SAT_SLOTS  = ['09:00','10:00','11:00','12:00','13:00'];
-      const ADMIN_NUM  = '27725298005';
+      const WDAY_SLOTS = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30'];
+      const SAT_SLOTS  = ['08:00','08:30','09:00','09:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30','18:00','18:30','19:00','19:30'];
+      const ADMIN_NUM  = '263772529805';
       const MONTHS     = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
       let bk = {};
@@ -1523,21 +1535,26 @@
         bk.date = new Date(y,m,d);
         bk.time = null;
         bk.bookedTimes = [];
+        bk.loadingSlots = false;
         renderCal();
         const statusEl = document.getElementById('bk-avail-status');
         if (APPS_SCRIPT_URL !== 'PASTE_YOUR_DEPLOYMENT_URL_HERE') {
           const mm = String(m+1).padStart(2,'0'), dd = String(d).padStart(2,'0');
-          if (statusEl) statusEl.textContent = 'Checking availability…';
+          bk.loadingSlots = true;
+          if (statusEl) statusEl.style.display = 'flex';
+          renderSlots();
           fetch(`${APPS_SCRIPT_URL}?date=${y}-${mm}-${dd}`)
             .then(r => r.json())
             .then(data => {
               bk.bookedTimes = data.booked || [];
-              if (statusEl) statusEl.textContent = '';
+              bk.loadingSlots = false;
+              if (statusEl) statusEl.style.display = 'none';
               renderSlots();
             })
             .catch(() => {
               bk.bookedTimes = [];
-              if (statusEl) statusEl.textContent = '';
+              bk.loadingSlots = false;
+              if (statusEl) statusEl.style.display = 'none';
               renderSlots();
             });
         }
@@ -1547,9 +1564,13 @@
         const wrap = document.getElementById('bk-slots-wrap');
         if (!bk.date) { wrap.style.display='none'; return; }
         wrap.style.display='';
-        const slots  = bk.date.getDay()===6 ? SAT_SLOTS : WDAY_SLOTS;
-        const booked = bk.bookedTimes || [];
+        const slots   = bk.date.getDay()===6 ? SAT_SLOTS : WDAY_SLOTS;
+        const booked  = bk.bookedTimes || [];
+        const loading = bk.loadingSlots;
         document.getElementById('bk-slots').innerHTML = slots.map(t => {
+          if (loading) {
+            return `<button class="bk-slot booked" disabled>${t}</button>`;
+          }
           const isBooked = booked.includes(t);
           const isSel    = bk.time === t;
           const cls      = 'bk-slot' + (isSel ? ' selected' : '') + (isBooked ? ' booked' : '');
@@ -1604,8 +1625,8 @@
       window.bkConfirm = function() {
         const svc = SERVICES[bk.svcIdx];
         const dateStr = bk.date.toLocaleDateString('en-ZA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-        const adminMsg  = `🌸 *New Booking — Hair Embers*\n\n*Service:* ${svc.name}\n*Date:* ${dateStr}\n*Time:* ${bk.time}\n*Client:* ${bk.name}\n*Phone:* ${bk.phone}\n\nPlease confirm this appointment.`;
-        const clientMsg = `✨ *Hi ${bk.name}!*\n\nYour Hair Embers appointment has been requested!\n\n*Service:* ${svc.name}\n*Date:* ${dateStr} at *${bk.time}*\n\n📍 Shop 4, Homegate Mall\n📞 072 529 805\n\nWe'll confirm your slot within 24 hours. See you soon! 💗`;
+        const adminMsg  = `🌸 *New Booking — Hair Embers*\n\n*Service:* ${svc.name}\n*Date:* ${dateStr}\n*Time:* ${bk.time}\n*Client:* ${bk.name}\n*Phone:* ${bk.phone}\n\nThis slot has been booked by the client.`;
+        const clientMsg = `✨ *Hi ${bk.name}!*\n\nYour Hair Embers appointment has been requested!\n\n*Service:* ${svc.name}\n*Date:* ${dateStr} at *${bk.time}*\n\n📍 Shop 4, Homegate Mall\n📞 +263 77 252 9805\n\nWe'll confirm your slot within 24 hours. See you soon! 💗`;
         const adminUrl  = `https://wa.me/${ADMIN_NUM}?text=${encodeURIComponent(adminMsg)}`;
         const rawPhone  = bk.phone.replace(/[\s\-\(\)]/g,'').replace(/^\+/,'').replace(/^0/,'27');
         const clientUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent(clientMsg)}`;

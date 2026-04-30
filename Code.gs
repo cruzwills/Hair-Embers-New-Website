@@ -1,42 +1,68 @@
 // ═══════════════════════════════════════════════════════════════
 //  Hair Embers — Google Apps Script Booking Backend
-//  Paste this entire file into script.google.com
-//  Run testBooking() first to grant permissions and verify setup
 // ═══════════════════════════════════════════════════════════════
 
-// ─── Configuration ─────────────────────────────────────────────
-var CALENDAR_ID = 'primary';          // 'primary' = your main Google Calendar
-var TIMEZONE    = 'Africa/Johannesburg';
+// ─── Configuration (plain values only — no function calls here) ─
+var CALENDAR_ID = 'primary';
 var SHEET_NAME  = 'Bookings';
-var SAST_OFFSET = 2;                  // UTC+2, South Africa has no DST
+var SAST_OFFSET = 2;  // UTC+2
 
-// ─── Helper: build a UTC Date from a SAST date + time string ───
-// dateStr: 'YYYY-MM-DD'  timeStr: 'HH:MM'
+// ─── Get timezone safely inside a function ─────────────────────
+function getTimezone() {
+  return Session.getScriptTimeZone();
+}
+
+// ─── Build today's date string without Utilities.formatDate ────
+function getTodayString() {
+  var now = new Date();
+  var y   = now.getFullYear();
+  var m   = String(now.getMonth() + 1).padStart(2, '0');
+  var d   = String(now.getDate()).padStart(2, '0');
+  return y + '-' + m + '-' + d;
+}
+
+// ─── Build timestamp string without Utilities.formatDate ───────
+function getTimestampString() {
+  var now = new Date();
+  var y   = now.getFullYear();
+  var mo  = String(now.getMonth() + 1).padStart(2, '0');
+  var d   = String(now.getDate()).padStart(2, '0');
+  var h   = String(now.getHours()).padStart(2, '0');
+  var mi  = String(now.getMinutes()).padStart(2, '0');
+  var s   = String(now.getSeconds()).padStart(2, '0');
+  return d + '/' + mo + '/' + y + ' ' + h + ':' + mi + ':' + s;
+}
+
+// ─── Convert SAST date + time strings to a UTC Date object ─────
 function sastToDate(dateStr, timeStr) {
+  if (!dateStr || typeof dateStr !== 'string' || dateStr.indexOf('-') === -1) {
+    throw new Error('sastToDate: bad dateStr -> ' + JSON.stringify(dateStr));
+  }
+  if (!timeStr || typeof timeStr !== 'string' || timeStr.indexOf(':') === -1) {
+    throw new Error('sastToDate: bad timeStr -> ' + JSON.stringify(timeStr));
+  }
   var d = dateStr.split('-').map(Number);
   var t = timeStr.split(':').map(Number);
-  // Subtract SAST offset so the internal UTC value is correct
   return new Date(Date.UTC(d[0], d[1] - 1, d[2], t[0] - SAST_OFFSET, t[1], 0));
 }
 
-// ─── doPost: Receive booking JSON, check conflicts, save ───────
+// ─── doPost: receive booking, check conflicts, save ────────────
 function doPost(e) {
   try {
     var data     = JSON.parse(e.postData.contents);
     var name     = data.name     || '';
     var phone    = data.phone    || '';
     var service  = data.service  || '';
-    var dateStr  = data.date;           // 'YYYY-MM-DD'
-    var timeStr  = data.time;           // 'HH:MM'
-    var duration = data.duration || 60; // minutes
+    var dateStr  = data.date     || '';
+    var timeStr  = data.time     || '';
+    var duration = parseInt(data.duration) || 30;
 
     var start = sastToDate(dateStr, timeStr);
     var end   = new Date(start.getTime() + duration * 60000);
 
-    // ── Check Google Calendar for conflicts ──
-    var cal    = CalendarApp.getCalendarById(CALENDAR_ID);
-    var events = cal.getEvents(start, end);
-    // Filter to only overlapping events (getEvents can return adjacent ones)
+    // Check for conflicts
+    var cal       = CalendarApp.getCalendarById(CALENDAR_ID);
+    var events    = cal.getEvents(start, end);
     var conflicts = events.filter(function(ev) {
       return ev.getStartTime() < end && ev.getEndTime() > start;
     });
@@ -44,20 +70,17 @@ function doPost(e) {
       return jsonResponse({ success: false, error: 'Slot already booked' });
     }
 
-    // ── Create Google Calendar event ──
+    // Create calendar event
     cal.createEvent(
-      'Hair Embers | ' + service + ' — ' + name,
-      start,
-      end,
+      'Hair Embers | ' + service + ' --- ' + name,
+      start, end,
       {
-        description: 'Client: '  + name    + '\n' +
-                     'Phone: '   + phone   + '\n' +
-                     'Service: ' + service,
+        description: 'Client: ' + name + '\nPhone: ' + phone + '\nService: ' + service,
         location: 'Shop 4, Homegate Mall'
       }
     );
 
-    // ── Log to Google Sheet ──
+    // Log to sheet
     logToSheet(name, phone, service, dateStr, timeStr, duration + ' min');
 
     return jsonResponse({ success: true });
@@ -67,23 +90,21 @@ function doPost(e) {
   }
 }
 
-// ─── doGet: Return booked time slots for a given date ──────────
-// Called by the website as:  ?date=YYYY-MM-DD
-// Returns:  { booked: ["09:00", "11:00", ...] }
+// ─── doGet: return booked time slots for a given date ──────────
 function doGet(e) {
   try {
     var dateStr = (e && e.parameter && e.parameter.date) ? e.parameter.date : null;
     if (!dateStr) return jsonResponse({ booked: [] });
 
-    // Full day window in SAST
     var dayStart = sastToDate(dateStr, '00:00');
     var dayEnd   = new Date(dayStart.getTime() + 24 * 3600000 - 1);
 
     var cal    = CalendarApp.getCalendarById(CALENDAR_ID);
     var events = cal.getEvents(dayStart, dayEnd);
+    var tz     = getTimezone();
 
     var booked = events.map(function(ev) {
-      return Utilities.formatDate(ev.getStartTime(), TIMEZONE, 'HH:mm');
+      return Utilities.formatDate(ev.getStartTime(), tz, 'HH:mm');
     });
 
     return jsonResponse({ booked: booked });
@@ -93,15 +114,14 @@ function doGet(e) {
   }
 }
 
-// ─── logToSheet: Append one row to the Bookings sheet ──────────
+// ─── logToSheet ────────────────────────────────────────────────
 function logToSheet(name, phone, service, date, time, duration) {
   var ss    = SpreadsheetApp.getActiveSpreadsheet();
   var sheet = ss.getSheetByName(SHEET_NAME);
 
-  // Auto-create the sheet with styled headers if it does not exist
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
-    var headers = ['Timestamp', 'Name', 'Phone', 'Service', 'Date', 'Time', 'Duration', 'Status'];
+    var headers = ['Timestamp','Name','Phone','Service','Date','Time','Duration','Status'];
     var hRange  = sheet.getRange(1, 1, 1, headers.length);
     hRange.setValues([headers]);
     hRange.setFontWeight('bold');
@@ -113,53 +133,45 @@ function logToSheet(name, phone, service, date, time, duration) {
     sheet.setColumnWidth(8, 180);
   }
 
-  sheet.appendRow([
-    Utilities.formatDate(new Date(), TIMEZONE, 'dd/MM/yyyy HH:mm:ss'),
-    name,
-    phone,
-    service,
-    date,
-    time,
-    duration,
-    'Pending Confirmation'
-  ]);
+  // Write each cell individually so phone is stored as plain text (no #ERROR!)
+  var row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 1).setValue(getTimestampString());
+  sheet.getRange(row, 2).setValue(name);
+  sheet.getRange(row, 3).setValue("'" + phone);
+  sheet.getRange(row, 4).setValue(service);
+  sheet.getRange(row, 5).setValue(date);
+  sheet.getRange(row, 6).setValue(time);
+  sheet.getRange(row, 7).setValue(duration);
+  sheet.getRange(row, 8).setValue('Pending Confirmation');
 }
 
-// ─── jsonResponse: Shared helper ───────────────────────────────
+// ─── jsonResponse ──────────────────────────────────────────────
 function jsonResponse(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-// ─── testBooking: Run this manually BEFORE deploying ───────────
-// Select this function from the dropdown and click Run (▶).
-// Approve any permission prompts, then check the Execution log.
+// ─── testBooking ───────────────────────────────────────────────
+// IMPORTANT: Select "testBooking" in the dropdown then click Run
 function testBooking() {
-  var today = Utilities.formatDate(new Date(), TIMEZONE, 'yyyy-MM-dd');
-  Logger.log('▶ Running testBooking for date: ' + today);
-  Logger.log('  Script timezone: ' + Session.getScriptTimeZone());
+  var today = getTodayString();
+  Logger.log('Today    : ' + today);
+  Logger.log('Timezone : ' + getTimezone());
 
-  // ── Test 1: Sheet logging ──
-  logToSheet(
-    'Test Client',
-    '+27 72 000 0000',
-    'Wig Fitting & Consultation',
-    today,
-    '14:00',
-    '60 min'
-  );
-  Logger.log('✅ Sheet: test row appended to "' + SHEET_NAME + '" tab');
+  // Test 1: Sheet
+  logToSheet('Test Client', '+263720000000', 'Wig Fitting & Consultation', today, '14:00', '30 min');
+  Logger.log('OK Sheet: row written to ' + SHEET_NAME);
 
-  // ── Test 2: Calendar read ──
+  // Test 2: Calendar
   var cal    = CalendarApp.getCalendarById(CALENDAR_ID);
   var events = cal.getEventsForDay(new Date());
-  Logger.log('✅ Calendar: connected — ' + events.length + ' event(s) today');
+  Logger.log('OK Calendar: connected, ' + events.length + ' event(s) today');
 
-  // ── Test 3: Date conversion sanity check ──
+  // Test 3: Date math
   var testDate = sastToDate(today, '09:00');
-  Logger.log('✅ Date math: ' + today + ' 09:00 SAST → ' + testDate.toISOString() + ' (UTC)');
+  Logger.log('OK Date math: ' + today + ' 09:00 SAST -> ' + testDate.toISOString() + ' UTC');
 
-  Logger.log('─────────────────────────────────');
-  Logger.log('All tests passed! Now deploy as a Web App (see SETUP.md).');
+  Logger.log('-----------------------------');
+  Logger.log('All tests passed! Ready to deploy.');
 }
