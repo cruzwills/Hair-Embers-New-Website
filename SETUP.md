@@ -93,6 +93,8 @@ use that same account for everything below so bookings appear there automaticall
 5. Copy the **Web app URL** — it looks like:
    `https://script.google.com/macros/s/AKfycby.../exec`
 
+   https://script.google.com/macros/s/AKfycbyOgYETjvIRAGMJLGcSFhGV0rVNp8tgYY7Ys25KHElHwgAWc0iRDuyg1rQDtIr27FHCJg/exec
+
 > Save this URL somewhere safe — you will need it every time you re-deploy.
 
 ---
