@@ -265,6 +265,56 @@
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
 
+    /* ─── Booking modal ─────────────────────────────── */
+    #booking-modal {
+      position: fixed; inset: 0; z-index: 9200;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #booking-modal.open { opacity: 1; pointer-events: all; }
+    #booking-modal .booking-box {
+      position: relative; z-index: 1;
+      width: 95%; max-width: 540px;
+      max-height: 92vh; overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      transform: scale(0.92) translateY(24px);
+      transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    #booking-modal.open .booking-box { transform: scale(1) translateY(0); }
+    .bk-step-dot {
+      width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.25);
+      transition: all 0.3s ease;
+    }
+    .bk-step-dot.active { border-color: #F04C8A; color: #F04C8A; background: rgba(240,76,138,0.12); }
+    .bk-step-dot.done { background: linear-gradient(135deg,#F04C8A,#C73470); border-color: transparent; color: #fff; }
+    .bk-step-line { height: 1px; background: rgba(255,255,255,0.08); transition: background 0.3s ease; }
+    .bk-step-line.done { background: linear-gradient(90deg,#F04C8A,#C73470); }
+    .bk-cal-day {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem; border-radius: 4px; cursor: pointer;
+      color: rgba(255,255,255,0.75);
+      transition: background 0.15s, color 0.15s;
+    }
+    .bk-cal-day.empty { cursor: default; color: transparent; pointer-events: none; }
+    .bk-cal-day.disabled { cursor: not-allowed; color: rgba(255,255,255,0.12); pointer-events: none; }
+    .bk-cal-day:not(.disabled):not(.empty):hover { background: rgba(240,76,138,0.2); }
+    .bk-cal-day.today:not(.selected) { border: 1px solid rgba(240,76,138,0.45); color: #F04C8A; }
+    .bk-cal-day.selected { background: linear-gradient(135deg,#F04C8A,#C73470); color: #fff; }
+    .bk-slot {
+      padding: 8px 4px; text-align: center; cursor: pointer;
+      border: 1px solid rgba(255,255,255,0.1); font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.03em; color: rgba(255,255,255,0.55);
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .bk-slot:hover { border-color: rgba(240,76,138,0.5); color: #fff; }
+    .bk-slot.selected { background: linear-gradient(135deg,#F04C8A,#C73470); border-color: transparent; color: #fff; }
+    .bk-slot.booked   { color: rgba(255,255,255,0.18); text-decoration: line-through; cursor: not-allowed; pointer-events: none; background: rgba(255,255,255,0.02); }
+
     /* ─── Mobile polish ─────────────────────────────────── */
     @media (max-width: 639px) {
       html, body { overflow-x: hidden; }
@@ -306,10 +356,10 @@
       </nav>
 
       <div class="flex items-center gap-4">
-        <a href="#contact"
+        <button onclick="openBooking()"
            class="hidden lg:inline-flex items-center gap-2 shimmer-wrap bg-gradient-to-r from-pink to-rose text-white text-[0.74rem] font-semibold tracking-wider uppercase px-7 py-3 shadow-pink-glow hover:shadow-pink-glow-lg active:scale-[0.97] transition-[transform,box-shadow] duration-200 focus-visible:ring-2 focus-visible:ring-pink">
           Book Now
-        </a>
+        </button>
         <button id="hamburger" aria-label="Menu" class="lg:hidden flex flex-col gap-[5px] p-1.5 focus-visible:ring-2 focus-visible:ring-pink">
           <span id="hb1" class="block w-6 h-px bg-white transition-transform duration-300 origin-center"></span>
           <span id="hb2" class="block w-6 h-px bg-white transition-opacity duration-300"></span>
@@ -325,7 +375,7 @@
         <a href="#services"     onclick="closeNav()" class="py-3.5 text-[0.78rem] font-semibold tracking-widest uppercase text-white/60 hover:text-white border-b border-white/[0.06] transition-colors duration-200">Services</a>
         <a href="#testimonials" onclick="closeNav()" class="py-3.5 text-[0.78rem] font-semibold tracking-widest uppercase text-white/60 hover:text-white border-b border-white/[0.06] transition-colors duration-200">Reviews</a>
         <a href="#contact"      onclick="closeNav()" class="py-3.5 text-[0.78rem] font-semibold tracking-widest uppercase text-white/60 hover:text-white transition-colors duration-200">Contact</a>
-        <a href="#contact" onclick="closeNav()" class="mt-4 text-center bg-gradient-to-r from-pink to-rose text-white text-[0.74rem] font-semibold tracking-wider uppercase px-7 py-4">Book Now</a>
+        <button onclick="closeNav(); openBooking();" class="mt-4 w-full text-center bg-gradient-to-r from-pink to-rose text-white text-[0.74rem] font-semibold tracking-wider uppercase px-7 py-4">Book Now</button>
       </div>
     </div>
   </header>
@@ -371,12 +421,12 @@
         <div class="flex flex-col sm:flex-row flex-wrap gap-4 mb-10 sm:mb-16 reveal">
           <!-- Primary CTA with pulse -->
           <div class="relative">
-            <a href="#contact"
+            <button onclick="openBooking()"
                class="btn-pulse relative z-10 inline-flex items-center gap-2.5 shimmer-wrap bg-gradient-to-r from-pink to-rose text-white text-[0.78rem] font-bold tracking-[0.14em] uppercase px-9 py-4.5 shadow-pink-glow-lg hover:shadow-pink-glow-lg active:scale-[0.97] focus-visible:ring-2 focus-visible:ring-pink transition-[transform,box-shadow] duration-200"
                style="padding-top:18px;padding-bottom:18px;">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>
               Book Appointment
-            </a>
+            </button>
           </div>
           <a href="#collections"
              class="inline-flex items-center gap-2.5 glass border border-white/20 text-white text-[0.78rem] font-semibold tracking-[0.12em] uppercase px-8 py-4.5 hover:border-pink/50 hover:bg-pink/5 active:scale-[0.97] transition-[border-color,background,transform] duration-200 focus-visible:ring-2 focus-visible:ring-white"
@@ -473,7 +523,10 @@
         <!-- Glow -->
         <div class="absolute -inset-4 rounded-none" style="background:radial-gradient(circle,rgba(240,76,138,0.2) 0%,transparent 70%);filter:blur(32px);"></div>
         <div class="relative aspect-[4/5] overflow-hidden" style="background:#181818;">
-          <img src="https://images.pexels.com/photos/14037647/pexels-photo-14037647.jpeg?auto=compress&cs=tinysrgb&w=560&h=700&fit=crop" alt="About" class="w-full h-full object-cover opacity-60" />
+          <picture>
+            <source media="(min-width: 768px)" srcset="home%20hair%20embers.png" />
+            <img src="brand_assests/hair pic2.png" alt="About" class="w-full h-full object-cover opacity-60" />
+          </picture>
           <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(7,7,7,0.7) 0%,transparent 50%);"></div>
         </div>
         <!-- Floating glass stat card -->
@@ -565,8 +618,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Silky Straight Lace Front</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">100% Remy hair — smooth, natural, long-lasting.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,299</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(0)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -585,8 +637,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Luxe Body Wave Full Lace</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">Voluminous waves that command every room.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,799</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(1)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -605,8 +656,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Deep Wave Glueless Wig</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">Rich, deep waves — effortless glam every day.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,499</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(2)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -625,8 +675,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Natural Curly Lace Wig</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">Celebrate texture with a gorgeous curly crown.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,599</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(3)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -645,8 +694,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Sleek Bob Lace Front</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">Clean, sharp — the statement bob you deserve.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,199</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(4)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -665,8 +713,7 @@
           <div class="p-6">
             <div class="font-display font-semibold text-lg text-white mb-1.5">Highlight Ombré Wig</div>
             <p class="text-white/45 text-[0.8rem] leading-relaxed mb-4">Two-tone luxury for the boldly fashionable.</p>
-            <div class="flex items-center justify-between">
-              <span class="price-val font-display font-bold text-[1.4rem] text-gradient-gold">R 1,999</span>
+            <div class="flex items-center justify-end">
               <button onclick="event.stopPropagation();openQV(5)"
                 class="w-10 h-10 bg-gradient-to-br from-pink to-rose text-white text-xl flex items-center justify-center hover:shadow-pink-glow active:scale-90 transition-[box-shadow,transform] duration-200 focus-visible:ring-2 focus-visible:ring-pink">+</button>
             </div>
@@ -880,11 +927,11 @@
       </p>
       <div class="flex flex-col sm:flex-row flex-wrap gap-4 justify-center items-center">
         <div class="relative">
-          <a href="#contact"
+          <button onclick="openBooking()"
              class="btn-pulse relative z-10 inline-flex items-center gap-2.5 shimmer-wrap bg-gradient-to-r from-pink to-rose text-white text-[0.8rem] font-bold tracking-[0.14em] uppercase px-11 py-5 shadow-pink-glow-lg hover:shadow-pink-glow-lg active:scale-[0.97] transition-[transform,box-shadow] duration-200 focus-visible:ring-2 focus-visible:ring-pink">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/></svg>
             Book Appointment
-          </a>
+          </button>
         </div>
         <a href="tel:0725298005"
            class="inline-flex items-center gap-2.5 glass border border-white/25 text-white text-[0.8rem] font-semibold tracking-[0.12em] uppercase px-10 py-5 hover:border-pink/50 hover:bg-pink/5 active:scale-[0.97] transition-[border-color,background,transform] duration-200 focus-visible:ring-2 focus-visible:ring-white">
@@ -1050,6 +1097,136 @@
     </svg>
   </a>
 
+  <!-- ══ BOOKING MODAL ════════════════════════════════════════════════════ -->
+  <div id="booking-modal" role="dialog" aria-modal="true">
+    <div class="modal-backdrop" onclick="closeBooking()"></div>
+    <div class="booking-box glass border border-white/[0.1] shadow-pink-glow p-6 sm:p-8">
+
+      <button onclick="closeBooking()" aria-label="Close"
+        class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors duration-200 z-10 text-xl">✕</button>
+
+      <div class="mb-5">
+        <span class="text-pink text-[0.62rem] font-semibold tracking-[0.25em] uppercase">Hair Embers</span>
+        <h2 id="bk-title" class="font-display font-black text-white mt-1" style="font-size:1.5rem;letter-spacing:-0.02em;line-height:1.15;">Book an Appointment</h2>
+      </div>
+
+      <div id="bk-step-indicator" class="flex items-center gap-2 mb-6">
+        <div class="bk-step-dot active" data-step="1">1</div>
+        <div class="bk-step-line flex-1" data-after="1"></div>
+        <div class="bk-step-dot" data-step="2">2</div>
+        <div class="bk-step-line flex-1" data-after="2"></div>
+        <div class="bk-step-dot" data-step="3">3</div>
+        <div class="bk-step-line flex-1" data-after="3"></div>
+        <div class="bk-step-dot" data-step="4">4</div>
+      </div>
+
+      <!-- Step 1: Choose service -->
+      <div id="bk-step-1">
+        <p class="text-white/50 text-[0.83rem] mb-4">Choose your service:</p>
+        <div id="bk-services-list" class="flex flex-col gap-2 mb-6"></div>
+        <button id="bk-next-1" onclick="renderBookingStep(2)" disabled
+          class="w-full bg-gradient-to-r from-pink to-rose text-white text-[0.78rem] font-bold tracking-[0.14em] uppercase py-4 shadow-pink-glow hover:shadow-pink-glow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-[box-shadow,opacity] duration-200">
+          Continue →
+        </button>
+      </div>
+
+      <!-- Step 2: Pick date & time -->
+      <div id="bk-step-2" style="display:none">
+        <div class="flex items-center justify-between mb-3">
+          <button onclick="bkCalPrev()" class="w-9 h-9 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors duration-200 text-xl">‹</button>
+          <div id="bk-cal-header" class="font-display font-semibold text-white text-[0.95rem]"></div>
+          <button onclick="bkCalNext()" class="w-9 h-9 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/10 transition-colors duration-200 text-xl">›</button>
+        </div>
+        <div class="grid grid-cols-7 gap-1 mb-1">
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Su</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Mo</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Tu</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">We</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Th</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Fr</div>
+          <div class="text-center text-[0.6rem] font-semibold tracking-widest uppercase text-white/25 py-1">Sa</div>
+        </div>
+        <div id="bk-cal-grid" class="grid grid-cols-7 gap-1 mb-1"></div>
+        <p id="bk-avail-status" class="text-white/35 text-[0.7rem] mb-2 italic" style="min-height:1.1rem;"></p>
+        <div id="bk-slots-wrap" style="display:none">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-[0.62rem] tracking-[0.2em] uppercase text-white/40 font-semibold">Available Times</p>
+            <div class="flex items-center gap-3 text-[0.62rem] text-white/35">
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:#F04C8A;"></span>Available</span>
+              <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full inline-block" style="background:rgba(255,255,255,0.14);"></span>Booked</span>
+            </div>
+          </div>
+          <div id="bk-slots" class="grid grid-cols-4 gap-2 mb-5"></div>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="renderBookingStep(1)" class="flex-1 py-3.5 border border-white/15 text-white/60 text-[0.75rem] font-semibold tracking-wider uppercase hover:border-white/30 hover:text-white transition-[border-color,color] duration-200">← Back</button>
+          <button id="bk-next-2" onclick="renderBookingStep(3)" disabled
+            class="flex-1 bg-gradient-to-r from-pink to-rose text-white text-[0.78rem] font-bold tracking-[0.14em] uppercase py-3.5 shadow-pink-glow hover:shadow-pink-glow-lg disabled:opacity-40 disabled:cursor-not-allowed transition-[box-shadow,opacity] duration-200">
+            Continue →
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Your details -->
+      <div id="bk-step-3" style="display:none">
+        <div class="flex flex-col gap-4 mb-6">
+          <div class="flex flex-col gap-2">
+            <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">Full Name</label>
+            <input id="bk-name" type="text" placeholder="Nomvula Dlamini" autocomplete="name"
+              class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
+          </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-[0.62rem] tracking-[0.18em] uppercase text-white/45 font-semibold">WhatsApp Number</label>
+            <input id="bk-phone" type="tel" placeholder="+27 72 529 8005" autocomplete="tel"
+              class="bg-white/[0.04] border border-white/10 text-white placeholder-white/25 px-4 py-3.5 text-[0.9rem] focus:border-pink hover:border-white/20 outline-none transition-[border-color] duration-200" />
+            <span class="text-white/30 text-[0.72rem]">We'll send your confirmation here</span>
+          </div>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="renderBookingStep(2)" class="flex-1 py-3.5 border border-white/15 text-white/60 text-[0.75rem] font-semibold tracking-wider uppercase hover:border-white/30 hover:text-white transition-[border-color,color] duration-200">← Back</button>
+          <button onclick="bkGoConfirm()"
+            class="flex-1 bg-gradient-to-r from-pink to-rose text-white text-[0.78rem] font-bold tracking-[0.14em] uppercase py-3.5 shadow-pink-glow hover:shadow-pink-glow-lg transition-[box-shadow] duration-200">
+            Review →
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Confirm booking -->
+      <div id="bk-step-4" style="display:none">
+        <p class="text-white/50 text-[0.83rem] mb-4">Please review your appointment:</p>
+        <div id="bk-summary" class="glass-pink border border-pink/15 p-5 mb-5 flex flex-col gap-3"></div>
+        <button onclick="bkConfirm()"
+          class="w-full mb-3 flex items-center justify-center gap-2.5 py-4 text-[0.78rem] font-bold tracking-[0.12em] uppercase bg-gradient-to-r from-pink to-rose text-white shadow-pink-glow hover:shadow-pink-glow-lg active:scale-[0.98] transition-[box-shadow,transform] duration-200">
+          <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.569-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378L2 21l1.338-4.872A9.883 9.883 0 0 1 2.1 11.52C2.1 6.31 6.411 2 11.624 2c2.528 0 4.9.984 6.685 2.769a9.386 9.386 0 0 1 2.765 6.688c-.002 5.21-4.314 9.528-9.523 9.528"/></svg>
+          Confirm &amp; Notify via WhatsApp
+        </button>
+        <button onclick="renderBookingStep(3)" class="w-full py-3.5 border border-white/15 text-white/60 text-[0.75rem] font-semibold tracking-wider uppercase hover:border-white/30 hover:text-white transition-[border-color,color] duration-200">← Edit Details</button>
+      </div>
+
+      <!-- Step 5: Success -->
+      <div id="bk-step-5" style="display:none">
+        <div class="text-center py-2">
+          <div class="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center text-2xl font-bold text-pink" style="background:rgba(240,76,138,0.12);border:1px solid rgba(240,76,138,0.3);">✓</div>
+          <p class="text-white/50 text-[0.85rem] leading-relaxed mb-6">Your request has been sent to Hair Embers. We'll confirm your slot within 24 hours.</p>
+          <div id="bk-success-summary" class="glass-pink border border-pink/15 p-4 mb-6 text-left flex flex-col gap-2"></div>
+          <a id="bk-admin-wa" href="#" target="_blank" rel="noopener"
+            class="w-full mb-3 flex items-center justify-center gap-2.5 py-4 text-white text-[0.78rem] font-bold tracking-[0.12em] uppercase hover:scale-[1.02] active:scale-[0.98] transition-transform duration-200 block"
+            style="background:#25D366;">
+            <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.569-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378L2 21l1.338-4.872A9.883 9.883 0 0 1 2.1 11.52C2.1 6.31 6.411 2 11.624 2c2.528 0 4.9.984 6.685 2.769a9.386 9.386 0 0 1 2.765 6.688c-.002 5.21-4.314 9.528-9.523 9.528"/></svg>
+            Message Hair Embers
+          </a>
+          <a id="bk-client-wa" href="#" target="_blank" rel="noopener"
+            class="w-full flex items-center justify-center gap-2.5 py-4 text-[0.78rem] font-bold tracking-[0.12em] uppercase glass border border-white/15 text-white/70 hover:border-green-400/50 hover:text-white transition-[border-color,color] duration-200 block">
+            <svg class="w-4 h-4 fill-current text-green-400 flex-shrink-0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.569-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378L2 21l1.338-4.872A9.883 9.883 0 0 1 2.1 11.52C2.1 6.31 6.411 2 11.624 2c2.528 0 4.9.984 6.685 2.769a9.386 9.386 0 0 1 2.765 6.688c-.002 5.21-4.314 9.528-9.523 9.528"/></svg>
+            Send Me a Reminder
+          </a>
+          <button onclick="closeBooking()" class="mt-5 text-white/30 text-[0.75rem] hover:text-white/60 transition-colors duration-200">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <!-- ══ QUICK VIEW MODAL ══════════════════════════════════════════════════ -->
   <div id="qv-modal">
     <div class="modal-backdrop" onclick="closeQV()"></div>
@@ -1077,14 +1254,10 @@
               <button class="size-btn w-12 h-10 border border-white/20 text-white/70 text-sm hover:border-pink hover:text-pink active:scale-90 transition-[border-color,color,transform] duration-200 focus-visible:ring-1 focus-visible:ring-pink">XL</button>
             </div>
           </div>
-          <div class="flex items-center justify-between mb-6">
-            <span id="qv-price" class="font-display font-black text-3xl text-gradient-gold" style="letter-spacing:-0.02em;"></span>
-            <span class="text-white/35 text-[0.75rem]">Incl. delivery</span>
-          </div>
-          <a href="#contact" onclick="closeQV()"
+          <button onclick="closeQV(); openBooking();"
              class="w-full shimmer-wrap bg-gradient-to-r from-pink to-rose text-white text-[0.78rem] font-bold tracking-[0.14em] uppercase py-4 text-center shadow-pink-glow hover:shadow-pink-glow-lg active:scale-[0.98] transition-[box-shadow,transform] duration-200 block">
             Book / Order Now →
-          </a>
+          </button>
           <p class="text-white/30 text-[0.72rem] text-center mt-3">Free shipping on orders over R800</p>
         </div>
       </div>
@@ -1225,6 +1398,253 @@
       });
     }, { threshold: 0.5 });
     countEls.forEach(el => countObs.observe(el));
+
+    /* ── Apps Script Backend URL ──────────────────────────────────────────── */
+    /* Replace the placeholder below with your deployed Web App URL.         */
+    /* Go to script.google.com → Deploy → New deployment → Web App.         */
+    /* Execute as: Me  |  Who has access: Anyone  |  then copy the URL here. */
+    /* Full instructions in SETUP.md                                          */
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyOgYETjvIRAGMJLGcSFhGV0rVNp8tgYY7Ys25KHElHwgAWc0iRDuyg1rQDtIr27FHCJg/exec';
+
+    /* ── Booking Modal ── */
+    (function(){
+      const SERVICES = [
+        { name:'Wig Fitting & Consultation', duration:'60 min',  mins:60,  emoji:'👑' },
+        { name:'Custom Wig Order',           duration:'90 min',  mins:90,  emoji:'✂️'  },
+        { name:'Wig Maintenance & Styling',  duration:'60 min',  mins:60,  emoji:'🪄'  },
+        { name:'Natural Hair Extensions',    duration:'120 min', mins:120, emoji:'💫'  },
+        { name:'Wig Install',                duration:'90 min',  mins:90,  emoji:'💇'  },
+        { name:'Colour & Customisation',     duration:'120 min', mins:120, emoji:'🎨'  },
+      ];
+      const WDAY_SLOTS = ['09:00','10:00','11:00','12:00','13:00','14:00','15:00','16:00'];
+      const SAT_SLOTS  = ['09:00','10:00','11:00','12:00','13:00'];
+      const ADMIN_NUM  = '27725298005';
+      const MONTHS     = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+      let bk = {};
+
+      window.openBooking = function() {
+        const now = new Date();
+        bk = { step:1, svcIdx:null, date:null, time:null, name:'', phone:'', calY:now.getFullYear(), calM:now.getMonth(), bookedTimes:[] };
+        document.getElementById('booking-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+        gotoStep(1);
+      };
+
+      window.closeBooking = function() {
+        document.getElementById('booking-modal').classList.remove('open');
+        document.body.style.overflow = '';
+      };
+
+      function gotoStep(n) {
+        bk.step = n;
+        for (let i=1; i<=5; i++) document.getElementById('bk-step-'+i).style.display = i===n ? '' : 'none';
+        document.getElementById('bk-step-indicator').style.display = n<=4 ? '' : 'none';
+        document.getElementById('bk-title').textContent = n<=4 ? 'Book an Appointment' : 'All Done! ✓';
+        document.querySelectorAll('.bk-step-dot').forEach(d => {
+          const s = +d.dataset.step;
+          d.classList.toggle('active', s===n);
+          d.classList.toggle('done', s<n);
+        });
+        document.querySelectorAll('.bk-step-line').forEach(l => {
+          l.classList.toggle('done', +l.dataset.after < n);
+        });
+        if (n===1) renderSvcStep();
+        if (n===2) renderCal();
+        if (n===3) renderDetails();
+        if (n===4) renderConfirmStep();
+      }
+
+      window.renderBookingStep = gotoStep;
+
+      function renderSvcStep() {
+        document.getElementById('bk-services-list').innerHTML = SERVICES.map((s,i) => {
+          const sel = bk.svcIdx === i;
+          return `<button onclick="bkSelectSvc(${i})"
+            class="w-full text-left glass border ${sel?'border-pink bg-pink/10':'border-white/[0.07] hover:border-pink/40'} p-4 flex items-center gap-4 transition-[border-color,background] duration-200 active:scale-[0.99]">
+            <div class="text-2xl flex-shrink-0">${s.emoji}</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-white font-semibold text-[0.88rem]">${s.name}</div>
+              <div class="text-white/35 text-[0.74rem] mt-0.5">${s.duration}</div>
+            </div>
+            ${sel ? '<div class="text-pink text-lg flex-shrink-0">✓</div>' : ''}
+          </button>`;
+        }).join('');
+        document.getElementById('bk-next-1').disabled = bk.svcIdx === null;
+      }
+
+      window.bkSelectSvc = function(i) {
+        bk.svcIdx = i;
+        renderSvcStep();
+      };
+
+      function renderCal() {
+        const y = bk.calY, m = bk.calM;
+        const now = new Date();
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        document.getElementById('bk-cal-header').textContent = MONTHS[m] + ' ' + y;
+        const firstDay = new Date(y, m, 1).getDay();
+        const daysInMonth = new Date(y, m+1, 0).getDate();
+        let html = '';
+        for (let i=0; i<firstDay; i++) html += '<div class="bk-cal-day empty"></div>';
+        for (let d=1; d<=daysInMonth; d++) {
+          const dt = new Date(y, m, d);
+          const isSun = dt.getDay()===0;
+          const isPast = dt < today;
+          const isToday = dt.getTime()===today.getTime();
+          const isSel = bk.date && bk.date.getTime()===dt.getTime();
+          let cls = 'bk-cal-day';
+          if (isSun||isPast) cls += ' disabled';
+          else if (isSel) cls += ' selected';
+          else if (isToday) cls += ' today';
+          const fn = (!isSun&&!isPast) ? `onclick="bkPickDate(${y},${m},${d})"` : '';
+          html += `<div class="${cls}" ${fn}>${d}</div>`;
+        }
+        document.getElementById('bk-cal-grid').innerHTML = html;
+        renderSlots();
+        document.getElementById('bk-next-2').disabled = !(bk.date && bk.time);
+      }
+
+      window.bkCalPrev = function() {
+        const now = new Date();
+        if (bk.calM===0) { bk.calY--; bk.calM=11; } else bk.calM--;
+        if (bk.calY<now.getFullYear()||(bk.calY===now.getFullYear()&&bk.calM<now.getMonth())) {
+          bk.calY=now.getFullYear(); bk.calM=now.getMonth();
+        }
+        renderCal();
+      };
+
+      window.bkCalNext = function() {
+        if (bk.calM===11) { bk.calY++; bk.calM=0; } else bk.calM++;
+        renderCal();
+      };
+
+      window.bkPickDate = function(y,m,d) {
+        bk.date = new Date(y,m,d);
+        bk.time = null;
+        bk.bookedTimes = [];
+        renderCal();
+        const statusEl = document.getElementById('bk-avail-status');
+        if (APPS_SCRIPT_URL !== 'PASTE_YOUR_DEPLOYMENT_URL_HERE') {
+          const mm = String(m+1).padStart(2,'0'), dd = String(d).padStart(2,'0');
+          if (statusEl) statusEl.textContent = 'Checking availability…';
+          fetch(`${APPS_SCRIPT_URL}?date=${y}-${mm}-${dd}`)
+            .then(r => r.json())
+            .then(data => {
+              bk.bookedTimes = data.booked || [];
+              if (statusEl) statusEl.textContent = '';
+              renderSlots();
+            })
+            .catch(() => {
+              bk.bookedTimes = [];
+              if (statusEl) statusEl.textContent = '';
+              renderSlots();
+            });
+        }
+      };
+
+      function renderSlots() {
+        const wrap = document.getElementById('bk-slots-wrap');
+        if (!bk.date) { wrap.style.display='none'; return; }
+        wrap.style.display='';
+        const slots  = bk.date.getDay()===6 ? SAT_SLOTS : WDAY_SLOTS;
+        const booked = bk.bookedTimes || [];
+        document.getElementById('bk-slots').innerHTML = slots.map(t => {
+          const isBooked = booked.includes(t);
+          const isSel    = bk.time === t;
+          const cls      = 'bk-slot' + (isSel ? ' selected' : '') + (isBooked ? ' booked' : '');
+          const click    = isBooked ? '' : `onclick="bkPickTime('${t}')"`;
+          const attrs    = isBooked ? ' disabled title="Already booked"' : '';
+          return `<button ${click} class="${cls}"${attrs}>${t}</button>`;
+        }).join('');
+      }
+
+      window.bkPickTime = function(t) {
+        bk.time = t;
+        renderSlots();
+        document.getElementById('bk-next-2').disabled = false;
+      };
+
+      function renderDetails() {
+        const n = document.getElementById('bk-name');
+        const p = document.getElementById('bk-phone');
+        if (bk.name) n.value = bk.name;
+        if (bk.phone) p.value = bk.phone;
+      }
+
+      window.bkGoConfirm = function() {
+        const name  = document.getElementById('bk-name').value.trim();
+        const phone = document.getElementById('bk-phone').value.trim();
+        if (!name)  { document.getElementById('bk-name').focus();  return; }
+        if (!phone) { document.getElementById('bk-phone').focus(); return; }
+        bk.name = name; bk.phone = phone;
+        gotoStep(4);
+      };
+
+      function renderConfirmStep() {
+        const svc = SERVICES[bk.svcIdx];
+        const dateStr = bk.date.toLocaleDateString('en-ZA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        document.getElementById('bk-summary').innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="text-2xl">${svc.emoji}</div>
+            <div>
+              <div class="text-[0.6rem] tracking-[0.18em] uppercase text-pink font-semibold">Service</div>
+              <div class="text-white text-[0.9rem] font-semibold">${svc.name}</div>
+            </div>
+          </div>
+          <div class="w-full h-px bg-white/[0.06]"></div>
+          <div class="grid grid-cols-2 gap-3 text-[0.83rem]">
+            <div><div class="text-white/35 text-[0.6rem] tracking-[0.15em] uppercase mb-0.5">Date</div><div class="text-white">${dateStr}</div></div>
+            <div><div class="text-white/35 text-[0.6rem] tracking-[0.15em] uppercase mb-0.5">Time</div><div class="text-white">${bk.time}</div></div>
+            <div><div class="text-white/35 text-[0.6rem] tracking-[0.15em] uppercase mb-0.5">Name</div><div class="text-white">${bk.name}</div></div>
+            <div><div class="text-white/35 text-[0.6rem] tracking-[0.15em] uppercase mb-0.5">WhatsApp</div><div class="text-white">${bk.phone}</div></div>
+          </div>`;
+      }
+
+      window.bkConfirm = function() {
+        const svc = SERVICES[bk.svcIdx];
+        const dateStr = bk.date.toLocaleDateString('en-ZA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+        const adminMsg  = `🌸 *New Booking — Hair Embers*\n\n*Service:* ${svc.name}\n*Date:* ${dateStr}\n*Time:* ${bk.time}\n*Client:* ${bk.name}\n*Phone:* ${bk.phone}\n\nPlease confirm this appointment.`;
+        const clientMsg = `✨ *Hi ${bk.name}!*\n\nYour Hair Embers appointment has been requested!\n\n*Service:* ${svc.name}\n*Date:* ${dateStr} at *${bk.time}*\n\n📍 Shop 4, Homegate Mall\n📞 072 529 805\n\nWe'll confirm your slot within 24 hours. See you soon! 💗`;
+        const adminUrl  = `https://wa.me/${ADMIN_NUM}?text=${encodeURIComponent(adminMsg)}`;
+        const rawPhone  = bk.phone.replace(/[\s\-\(\)]/g,'').replace(/^\+/,'').replace(/^0/,'27');
+        const clientUrl = `https://wa.me/${rawPhone}?text=${encodeURIComponent(clientMsg)}`;
+        document.getElementById('bk-success-summary').innerHTML = `
+          <div class="text-[0.6rem] tracking-[0.18em] uppercase text-pink font-semibold mb-1.5">Your Booking</div>
+          <div class="text-white/70 text-[0.82rem]">📋 <strong class="text-white">${svc.name}</strong></div>
+          <div class="text-white/70 text-[0.82rem]">📅 ${dateStr} at <strong class="text-white">${bk.time}</strong></div>
+          <div class="text-white/70 text-[0.82rem]">📍 Shop 4, Homegate Mall</div>`;
+        document.getElementById('bk-admin-wa').href  = adminUrl;
+        document.getElementById('bk-client-wa').href = clientUrl;
+
+        const confirmBtn = document.querySelector('#bk-step-4 button[onclick="bkConfirm()"]');
+        if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.textContent = 'Sending…'; }
+
+        const y  = bk.date.getFullYear();
+        const mm = String(bk.date.getMonth()+1).padStart(2,'0');
+        const dd = String(bk.date.getDate()).padStart(2,'0');
+        const payload = JSON.stringify({
+          name: bk.name, phone: bk.phone, service: svc.name,
+          date: `${y}-${mm}-${dd}`, time: bk.time, duration: svc.mins
+        });
+
+        function proceed() { window.open(adminUrl, '_blank', 'noopener,noreferrer'); gotoStep(5); }
+
+        if (APPS_SCRIPT_URL !== 'PASTE_YOUR_DEPLOYMENT_URL_HERE') {
+          fetch(APPS_SCRIPT_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: payload
+          }).then(proceed).catch(proceed);
+        } else {
+          proceed();
+        }
+      };
+
+      document.addEventListener('keydown', e => {
+        if (e.key==='Escape' && document.getElementById('booking-modal').classList.contains('open')) closeBooking();
+      });
+    })();
 
     /* ── Form submit ── */
     function handleForm(e) {
