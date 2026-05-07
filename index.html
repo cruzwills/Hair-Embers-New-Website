@@ -1879,7 +1879,7 @@
           date: `${y}-${mm}-${dd}`, time: bk.time, duration: svc.mins
         });
 
-        function proceed() { window.open(adminUrl, '_blank', 'noopener,noreferrer'); gotoStep(5); }
+        function proceed() { gotoStep(5); }
 
         if (APPS_SCRIPT_URL !== 'PASTE_YOUR_DEPLOYMENT_URL_HERE') {
           fetch(APPS_SCRIPT_URL, {
