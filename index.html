@@ -8,6 +8,70 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
 
+  <!-- ── SEO ──────────────────────────────────────────────────── -->
+  <meta name="description" content="Hair Embers — Harare's premium wig boutique. Custom wigs, lace fronts, extensions and professional styling. Visit us at Shop 47, Homegate Mall, Kwame Nkrumah Avenue, Harare." />
+  <meta name="keywords" content="hair embers, wigs Harare, lace front wigs Zimbabwe, custom wigs Harare, wig boutique Zimbabwe, hair extensions Harare, wig fitting Harare" />
+  <meta name="author" content="Hair Embers" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://hairembers.vercel.app/" />
+  <link rel="preload" as="image" href="home-hair-embers.png" />
+
+  <!-- Open Graph (Facebook / WhatsApp previews) -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Hair Embers" />
+  <meta property="og:title"       content="Hair Embers — Let Your Hair Make a Statement" />
+  <meta property="og:description" content="Harare's premium wig boutique. Custom wigs, lace fronts, extensions and professional styling. Book your appointment online." />
+  <meta property="og:image"       content="home-hair-embers.png" />
+  <meta property="og:url"         content="https://hairembers.vercel.app/" />
+  <meta property="og:locale"      content="en_ZW" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Hair Embers — Let Your Hair Make a Statement" />
+  <meta name="twitter:description" content="Harare's premium wig boutique. Custom wigs, lace fronts, extensions and professional styling. Book online today." />
+  <meta name="twitter:image"       content="home-hair-embers.png" />
+
+  <!-- JSON-LD: LocalBusiness structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HairSalon",
+    "name": "Hair Embers",
+    "description": "Premium wig boutique in Harare offering custom wigs, lace fronts, extensions and professional styling.",
+    "url": "https://hairembers.vercel.app/",
+    "logo": "https://hairembers.vercel.app/favicon.svg",
+    "image": "https://hairembers.vercel.app/home-hair-embers.png",
+    "telephone": "+263772529805",
+    "email": "hairemberszw@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Shop 47, Homegate Mall, Kwame Nkrumah (Union) Avenue",
+      "addressLocality": "Harare",
+      "addressCountry": "ZW"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -17.8292,
+      "longitude": 31.0522
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "08:00",
+        "closes": "19:30"
+      }
+    ],
+    "priceRange": "$$",
+    "currenciesAccepted": "USD, ZWL",
+    "paymentAccepted": "Cash, EcoCash, ZimSwitch",
+    "areaServed": {
+      "@type": "City",
+      "name": "Harare"
+    }
+  }
+  </script>
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -528,7 +592,7 @@
         <!-- Main card -->
         <div class="relative glass border border-white/[0.08] overflow-hidden shadow-pink-glow" style="aspect-ratio:3/4;">
           <div class="absolute inset-0" style="background:linear-gradient(160deg,rgba(240,76,138,0.12) 0%,transparent 50%);"></div>
-          <img src="home-hair-embers.png" alt="Hair Embers" class="w-full h-full object-cover opacity-70" />
+          <img src="home-hair-embers.png" alt="Hair Embers" class="w-full h-full object-cover opacity-70" fetchpriority="high" />
           <!-- Overlay info -->
           <div class="absolute inset-0 flex flex-col justify-between p-8">
             <img src="brand_assests/logo.png" alt="Hair Embers" class="w-24 sm:w-28 md:w-32 lg:w-36 h-auto opacity-80" />
@@ -595,7 +659,7 @@
         <!-- Glow -->
         <div class="absolute -inset-4 rounded-none" style="background:radial-gradient(circle,rgba(240,76,138,0.2) 0%,transparent 70%);filter:blur(32px);"></div>
         <div class="relative aspect-[4/5] overflow-hidden" style="background:#181818;">
-          <img src="brand_assests/hair pic2.png" alt="About" class="w-full h-full object-cover opacity-60" />
+          <img src="brand_assests/hair pic2.png" alt="About" class="w-full h-full object-cover opacity-60" loading="lazy" />
           <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(7,7,7,0.7) 0%,transparent 50%);"></div>
         </div>
         <!-- Floating glass stat card -->
@@ -677,7 +741,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(0)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#151515;">
-            <img src="silk natural.jpeg" alt="Silky Straight" class="w-full h-full object-cover opacity-70" />
+            <img src="silk natural.jpeg" alt="Silky Straight" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.08) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">Bestseller</span>
             <div class="quick-view-btn">
@@ -696,7 +760,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(1)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#1a1015;">
-            <img src="lux.jpeg" alt="Body Wave" class="w-full h-full object-cover opacity-70" />
+            <img src="lux.jpeg" alt="Body Wave" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.1) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">New In</span>
             <div class="quick-view-btn">
@@ -715,7 +779,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(2)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#10101a;">
-            <img src="wate.jpeg" alt="Deep Wave" class="w-full h-full object-cover opacity-70" />
+            <img src="wate.jpeg" alt="Deep Wave" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.08) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">Popular</span>
             <div class="quick-view-btn">
@@ -734,7 +798,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(3)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#1a1520;">
-            <img src="natural curly.jpeg" alt="Curly" class="w-full h-full object-cover opacity-70" />
+            <img src="natural curly.jpeg" alt="Curly" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.08) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">Trending</span>
             <div class="quick-view-btn">
@@ -753,7 +817,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(4)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#10201a;">
-            <img src="cute-bob-wigs-michelle-2.jpeg" alt="Bob" class="w-full h-full object-cover opacity-70" />
+            <img src="cute-bob-wigs-michelle-2.jpeg" alt="Bob" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.08) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">Chic Pick</span>
             <div class="quick-view-btn">
@@ -772,7 +836,7 @@
 
         <div class="product-card glass grad-border overflow-hidden cursor-pointer reveal" onclick="openQV(5)">
           <div class="relative card-img aspect-[3/4] overflow-hidden" style="background:#1a0d1a;">
-            <img src="ombre.png" alt="Ombre" class="w-full h-full object-cover opacity-70" />
+            <img src="ombre.png" alt="Ombre" class="w-full h-full object-cover opacity-70" loading="lazy" />
             <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 50%,rgba(240,76,138,0.1) 100%);"></div>
             <span class="absolute top-4 left-4 bg-gradient-to-r from-pink to-rose text-white text-[0.58rem] font-bold tracking-[0.15em] uppercase px-3 py-1.5 shadow-pink-glow">Limited</span>
             <div class="quick-view-btn">
@@ -1114,7 +1178,7 @@
 
         <!-- Logo column (spans 2 of 5 on desktop) -->
         <div class="col-span-2 lg:col-span-2">
-          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-14 sm:h-16 lg:h-20 w-auto mb-4 drop-shadow-[0_4px_24px_rgba(240,76,138,0.25)]" />
+          <img src="brand_assests/logo.png" alt="Hair Embers" class="h-14 sm:h-16 lg:h-20 w-auto mb-4 drop-shadow-[0_4px_24px_rgba(240,76,138,0.25)]" loading="lazy" />
           <p class="font-script italic text-pink/50 text-[1rem] mb-6 leading-relaxed" style="font-family:'Cormorant Garamond',Georgia,serif;">"Confidence Is Your Best Accessory"</p>
           <div class="flex gap-2.5 mb-6">
             <a href="https://www.instagram.com/hairemberszw/reels/" target="_blank" rel="noopener" aria-label="Instagram"
