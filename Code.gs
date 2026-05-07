@@ -76,7 +76,7 @@ function doPost(e) {
       start, end,
       {
         description: 'Client: ' + name + '\nPhone: ' + phone + '\nService: ' + service,
-        location: 'Shop 4, Homegate Mall'
+        location: 'Shop 47, Homegate Mall, Kwame Nkrumah Avenue, Harare, Zimbabwe'
       }
     );
 
